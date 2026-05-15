@@ -2,6 +2,8 @@
 
 An LLM Agent-based SKILL security scanning tool for automated identification and assessment of security risks in SKILL directories.
 
+[中文文档](./README_CN.md)
+
 ![](./images/cover.png)
 
 ## Features
