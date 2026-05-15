@@ -1,0 +1,28 @@
+models:
+  - id: glm-5
+    name: GLM-5
+    api_key: ""
+    base_url: ""
+    temperature: 0.1
+
+  - id: deepseek-v4-flash
+    name: DeepSeek-V4-Flash
+    api_key: ""
+    base_url: ""
+    temperature: 0.1
+    extra_body: {"thinking": {"type": "disabled"}}
+
+roles:
+  skill_summary: deepseek-v4-flash
+  audit_scripts: glm-5
+
+langsmith:
+  tracing: true
+  endpoint: "https://api.smith.langchain.com"
+  api_key: ""
+  project: ""
+
+script_extensions: ['.py', '.sh', '.bash', '.js', '.ts', '.rb', '.pl', '.go', '.rs', '.ps1', '.cmd', '.bat']
+debug: false
+output_dir: "./output"
+language: "en"
