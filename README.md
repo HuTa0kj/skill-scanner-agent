@@ -96,7 +96,7 @@ language: "en"
 
 ```bash
 # Scan a SKILL directory
-skill-scanner scan --source ~/.claude/skills/skill-directory
+uv run skill-scanner scan --source ~/.claude/skills/skill-directory
 
 # Or run directly
 python -m skill_scanner.cli scan -s ~/.claude/skills/skill-directory
