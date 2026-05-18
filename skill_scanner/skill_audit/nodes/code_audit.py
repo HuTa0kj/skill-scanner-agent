@@ -15,6 +15,7 @@ def _create_analyze_agent(llm, root_path):
     config = read_config()
     model_call_limit = config.get("model_call", 80)
     tool_call_limit = config.get("toll_call", 80)
+    debug_mode = config.get("debug", False)
     return create_deep_agent(
         model=llm,
         system_prompt=read_prompt("code_audit.md"),
@@ -26,7 +27,8 @@ def _create_analyze_agent(llm, root_path):
             ModelCallLimitMiddleware(run_limit=model_call_limit),
             ToolCallLimitMiddleware(run_limit=tool_call_limit),
             FilesystemFileSearchMiddleware(root_path=root_path),
-        ]
+        ],
+        debug=debug_mode,
     )
 
 
