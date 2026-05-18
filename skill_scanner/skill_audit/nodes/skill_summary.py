@@ -3,19 +3,30 @@ import os.path
 from langchain_core.messages import AIMessage
 from deepagents import create_deep_agent, FilesystemPermission
 from deepagents.backends import FilesystemBackend
+from langchain.agents.middleware import ModelCallLimitMiddleware, ToolCallLimitMiddleware, \
+    FilesystemFileSearchMiddleware
 
 from skill_scanner.skill_audit.state import SkillSafeAuditState
 from skill_scanner.utils.utils import read_prompt, nodes_error, save_report, render_report, extract_report_message
 from skill_scanner.utils.logger import logger
+from skill_scanner.config import read_config
 
 
 def _create_analyze_agent(llm, root_path):
+    config = read_config()
+    model_call_limit = config.get("model_call", 80)
+    tool_call_limit = config.get("toll_call", 80)
     return create_deep_agent(
         model=llm,
         system_prompt=read_prompt("code_audit.md"),
         backend=FilesystemBackend(root_dir=root_path, virtual_mode=True),
         permissions=[
             FilesystemPermission(operations=["read"], paths=["/"], mode="allow"),
+        ],
+        middleware=[
+            ModelCallLimitMiddleware(run_limit=model_call_limit),
+            ToolCallLimitMiddleware(run_limit=tool_call_limit),
+            FilesystemFileSearchMiddleware(root_path=root_path),
         ],
     )
 
@@ -45,6 +56,7 @@ async def skill_summary(state: SkillSafeAuditState, llm) -> dict:
         f"- SKILL Name: {state.skill_name}\n"
         f"- SKILL Table of Contents: /\n"
         f"- SKILL.md path: /SKILL.md\n"
+        f"- Project Structure: {state.project_structure}\n"
     )
 
     try:
