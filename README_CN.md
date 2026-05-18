@@ -66,6 +66,10 @@ roles:
   skill_summary: deepseek-v4-flash
   audit_scripts: glm-5
 
+limit:
+  model_call: 80
+  tool_call: 80
+
 # langsmith config (Optional)
 langsmith:
   tracing: true
