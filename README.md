@@ -15,6 +15,15 @@ An LLM Agent-based SKILL security scanning tool for automated identification and
 - LangSmith tracing integration
 - Terminal report display + persistent file output
 
+## Why Agent?
+
+Traditional rule-based scanners rely on predefined patterns and signatures, which limits their ability to catch novel or subtle threats. Skill Scanner Agent leverages LLM-powered agents to overcome these limitations:
+
+- **Beyond Rules** — Agents can understand code semantics and intent, detecting malicious behaviors that rule-based approaches miss (e.g., obfuscated code, multi-step attack chains, context-aware exploits).
+- **Adaptive Reasoning** — Unlike static rules, agents dynamically reason about unfamiliar code patterns and adapt their analysis strategy based on what they discover during scanning.
+- **Context-Aware Analysis** — Agents evaluate security risks in the broader context of the entire SKILL, recognizing subtle cross-file interactions and chained vulnerabilities that individual rules cannot capture.
+- **Natural Language Explanations** — Every finding comes with a clear, human-readable explanation of the risk, impact, and recommended remediation — not just a rule ID.
+
 ## Workflow
 
 1. **gather_base_info** — Validate SKILL directory, extract name, detect script files
