@@ -1,5 +1,7 @@
 import os
 
+from pstruc import get_project_structure
+
 from skill_scanner.skill_audit.state import SkillSafeAuditState
 from skill_scanner.utils.utils import nodes_error
 from skill_scanner.utils.logger import logger
@@ -30,6 +32,7 @@ async def gather_base_info(state: SkillSafeAuditState) -> dict:
 
     return {
         "skill_name": skill_name,
+        "project_structure": _get_skill_structure(skill_dir),
         "has_scripts": _find_skill_scripts(skill_dir),
         "language": language,
     }
@@ -77,3 +80,17 @@ def _find_skill_scripts(path: str) -> bool:
             return True
     logger.info(f"No scripts found in SKILL directory: {path}")
     return False
+
+
+def _get_skill_structure(path: str) -> dict:
+    """Exploration Project Structure"""
+    structure: dict = get_project_structure(  # type: ignore
+        start_path=path,
+        output_format="dict",
+        to_ignore=[
+            '*.log', '*.pyc', '__pycache__', 'node_modules', '.env', 'dist', 'build', '__init__.py',
+            'test', 'tests', ".git", ".github", "pyproject.toml", "LICENSE", "Dockerfile", ".DS_Store",
+            "Thumbs.db", "*.pyo", "*.so", "*.dll", "*.tmp",
+        ]
+    )
+    return structure
